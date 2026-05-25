@@ -1,1 +1,4 @@
-# Trivia-
+# Trivia
+A multiple-choice quiz on Canada. Created using Harvard’s free online CS50 Introduction to Computer Science course on the edX platform and built with HTML, JavaScript and CSS. The quiz still has a few issues that need to be resolved, but the first question is playable. To play, first download the files by clicking on “Code” (the green button at the top right next to the search bar), then download the ZIP file, unzip it, and open the HTML file in the folder.
+
+Un quiz à choix multiples sur le Canada. Créé à partir du cours en ligne gratuit CS50 Introduction to Computer Science  de l'université de Harvard, disponible sur la plateforme edX est construit avec les langages HTML, Javascript et CSS. Le quiz présente encore quelques problèmes à résoudre, mais la première question est jouable. Pour y jouer, commencez par télécharger les fichiers en cliquant sur « Code » (le bouton vert en haut à droite, à côté de la barre de recherche), puis téléchargez le fichier ZIP, décompressez-le et ouvrez le fichier HTML qui se trouve dans le dossier.
