@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
     <head>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=500&display=swap" rel="stylesheet">
         <link href="styles.css" rel="stylesheet">
         <title>Trivia!</title>
         <script>
-
             // Wait for DOM content to load
             document.addEventListener('DOMContentLoaded', () => {
                 console.log('DOM fully loaded');
@@ -17,8 +15,12 @@
                         feedback: document.getElementById('part1-feedback-1')
                     },
                     {
-                        buttons: document.querySelectorAll('answer-button[data-question="2"]'),
+                        buttons: document.querySelectorAll('.answer-button[data-question="2"]'),
                         feedback: document.getElementById('part1-feedback-2')
+                    },
+                    {
+                        buttons: document.querySelectorAll('.answer-button[data-question="3"]'),
+                        feedback: document.getElementById('part1-feedback-3')
                     }
                 ];
 
@@ -29,9 +31,9 @@
 
                             group.buttons.forEach(btn => btn.disabled = true);
                             group.buttons.forEach(btn => btn.classList.remove('correct', 'incorrect'));
-                            group.feedback.textContext = '';
+                            group.feedback.textContent = '';
 
-                            if (button.dataset.correct == 'true') {
+                            if (button.dataset.correct === 'true') {
                                 button.classList.add('correct');
                                 group.feedback.textContent = 'Correct!';
                                 group.feedback.style.color = '#28a745';
@@ -57,17 +59,18 @@
                         input: document.getElementById('free-response-2'),
                         button: document.getElementById('submit-answer-2'),
                         feedback: document.getElementById('part2-feedback-2'),
-                        correctAnswer: ['yukon', 'northwest territories', 'nunavut']
+                        correctAnswers: ['yukon', 'northwest territories', 'nunavut']
                     }
                 ];
 
-                freeResponseQuestions.forEach(question => {
-                    console.log('Initializing free-response question ${index + 1}');
+                freeResponseQuestions.forEach((question, index) => {
+                    console.log(`Initializing free-response question ${index + 1}`);
                     if (!question.input || !question.button || !question.feedback) {
-                        console.error('Element missing for free-response question ${index + 1};',
+                        console.error(`Element missing for free-response question ${index + 1}:`,
                             { input: !!question.input, button: !!question.button, feedback: !!question.feedback });
                         return;
                     }
+                    
                     question.button.addEventListener('click', () => {
                         console.log('Free-response submit clicked, input:', question.input.value);
 
@@ -75,40 +78,39 @@
                         question.feedback.textContent = '';
 
                         const userAnswer = question.input.value.trim().toLowerCase();
+                        
                         if (question.correctAnswer) {
-
-                            if(userAnswer == question.correctAnswer) {
-                            question.input.classList.add('correct');
-                            question.feedback.textContent = 'Correct!';
-                            question.feedback.style.color = '#28a745';
-                            console.log('Free-response set to Correct!');
-                        } else {
-                            question.input.classList.add('incorrect');
-                            question.feedback.textContent = 'Incorrect';
-                            question.feedback.style.color = '#dc3545';
-                            console.log('Free-response set to Incorrect');
+                            if (userAnswer === question.correctAnswer) {
+                                question.input.classList.add('correct');
+                                question.feedback.textContent = 'Correct!';
+                                question.feedback.style.color = '#28a745';
+                                console.log('Free-response set to Correct!');
+                            } else {
+                                question.input.classList.add('incorrect');
+                                question.feedback.textContent = 'Incorrect!';
+                                question.feedback.style.color = '#dc3545';
+                                console.log('Free-response set to Incorrect');
+                            }
+                        } else if (question.correctAnswers) {
+                            const answers = userAnswer.split(',').map(answer => answer.trim().toLowerCase());
+                            const allCorrect = question.correctAnswers.every(correct => answers.includes(correct)) &&
+                                               answers.every(answer => question.correctAnswers.includes(answer));
+                            
+                            if (allCorrect && answers.length === question.correctAnswers.length) {
+                                question.input.classList.add('correct');
+                                question.feedback.textContent = 'Correct!';
+                                question.feedback.style.color = '#28a745';
+                                console.log('Free-response set to Correct!');
+                            } else {
+                                question.input.classList.add('incorrect');
+                                question.feedback.textContent = 'Incorrect!';
+                                question.feedback.style.color = '#dc3545';
+                                console.log('Free-response set to Incorrect');
+                            }
                         }
-                    } else if (question.correctAnswers) {
-                        const answers = userAnswer.split(',').map(answer => answer.trim().toLowerCase());
-                        const allCorrect = question.correctAswers.every(correct => answers.includes(correct)) &&
-                                          answers.every(answer => question.correctAnswers.includes(answer));
-                        if (allCorrect && answers.length === question.correctAnswers.length) {
-                            question.input.classList.add('correct');
-                            question.feedback.textContent = 'Correct!';
-                            question.feedback.style.color = '#28a745';
-                            console.log('Free-response set to Correct!');
-                        } else {
-                            question.input.classList.add('incorrect');
-                            question.feedback.textContent = 'Incorrect';
-                            question.feedback.style.color = '#dc3545';
-                            console.log('Free-response set to Incorrect');
-                        }
-                    }
+                    });
                 });
             });
-        });
-
-        // TODO: Add code to check answers to questions
         </script>
     </head>
     <body>
@@ -118,7 +120,7 @@
 
         <div class="container">
             <div class="section">
-                <h2>Part 1: Multiple Choice </h2>
+                <h2>Part 1: Multiple Choice</h2>
                 <hr>
                 <h3>What is the motto of the province of Quebec?</h3>
                 <button class="answer-button" data-question="1" data-correct="false">Sacre ton camp</button>
@@ -147,22 +149,22 @@
             </div>
 
             <div class="section">
-                </h2>Free Response</h2>
-                </hr>
-                </h3>What is one of the Canadian symbole?</h3>
-                <input type="text" id="free-response" placeholder="Type your answer here">
+                <h2>Free Response</h2>
+                <hr>
+                <h3>What is one of the Canadian symbole?</h3>
+                <input type="text" id="free-response-1" placeholder="Type your answer here">
                 <button id="submit-answer-1">Submit</button>
                 <p id="part2-feedback-1"></p>
             </div>
 
-                <div class="section">
-                    </h2>Free Response</h2>
-                    </hr>
-                    </h3>What are the Canadian territories?</h3>
-                    <input type="text" id="free-response" placeholder="Type your answer here">
-                    <button id="submit-answer-2">Submit</button>
-                    <p id="part2-feedback-2"></p>
-                </div>
+            <div class="section">
+                <h2>Free Response</h2>
+                <hr>
+                <h3>What are the Canadian territories?</h3>
+                <input type="text" id="free-response-2" placeholder="Type your answer here (comma separated)">
+                <button id="submit-answer-2">Submit</button>
+                <p id="part2-feedback-2"></p>
             </div>
+        </div>
     </body>
 </html>
